@@ -1,24 +1,28 @@
-import logo from './logo.svg';
 import './App.css';
+import NavigationBar from './components/NavigationBar';
+import AcceuilPage from './components/AcceuilPage';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; 
+import AjouterAbonne from './components/AjouterAbonne';
+import AbonnesListe from './components/AbonnesListe';
+import AjouterContrat from './components/AjouterContrat';
+import ContratsListe from './components/ContratsListe';
+import AjouterOffre from './components/AjouterOffre';
+import OffresListe from './components/OffresListe';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <NavigationBar />
+      <Routes>
+        <Route path='/' exact Component={AcceuilPage} />
+        <Route path='/ajouterAbonne' exact Component={AjouterAbonne} />
+        <Route path='/abonnes' exact Component={AbonnesListe} />
+        <Route path='/ajouterContrat' exact Component={AjouterContrat} />
+        <Route path='/contrats' exact Component={ContratsListe} />
+        <Route path='/ajouterOffre' exact Component={AjouterOffre} />
+        <Route path='/offres' exact Component={OffresListe} />
+      </Routes>
+    </Router>
   );
 }
 
