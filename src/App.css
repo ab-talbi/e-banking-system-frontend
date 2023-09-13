@@ -1,0 +1,15 @@
+.form-control::placeholder {
+    color: rgb(209, 209, 209);
+    opacity: 1;
+}
+
+.vr{
+    border-left: 1px solid rgb(194, 194, 194);
+    height: 100px;
+}
+
+@media screen and (max-width: 767px) {
+    .vr {
+      display: none;
+    }
+  }
