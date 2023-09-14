@@ -1,9 +1,32 @@
 import React, {Component} from "react";
-import { Card, Table } from "react-bootstrap";
+import { Button, ButtonGroup, Card, Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faList} from "@fortawesome/free-solid-svg-icons";
+import {faList, faTrash, faEdit} from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+
+const OFFRES_REST_API_URL = 'http://localhost:8089/api/offres';
 
 export default class OffresListe extends Component{
+
+    constructor(props){
+        super(props);
+        this.state = {
+            offres : []
+        };
+    }
+
+    componentDidMount(){
+        this.getTousLesOffres();
+    }
+
+    getTousLesOffres(){
+        axios.get(OFFRES_REST_API_URL)
+            .then(response => response.data)
+            .then((data) => {
+                this.setState({offres : data})
+            });
+    }
+
     render(){
         return (
             <Card className={"border border-dark bg-dark text-white"}>
@@ -15,12 +38,29 @@ export default class OffresListe extends Component{
                                 <th>ID</th>
                                 <th>LIBELLE</th>
                                 <th>DESCRIPTION</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr align="center">
-                                <td colSpan="6">Pas d'offre.</td>
-                            </tr>
+                            {this.state.offres.length === 0 ? 
+                                <tr align="center">
+                                    <td colSpan="4">Aucun offre à afficher.</td>
+                                </tr> : 
+                                this.state.offres.map((offre) => (
+                                <tr key={offre.id}>
+                                    <td>{offre.id}</td>
+                                    <td>{offre.libelle}</td>
+                                    <td>{offre.description}</td>
+                                    <td>
+                                        <ButtonGroup>
+                                            <Button size="sm" variant="outline-dark"><FontAwesomeIcon icon={faEdit} /></Button>{' '}
+                                            <Button size="sm" variant="outline-danger"><FontAwesomeIcon icon={faTrash} /></Button>
+                                        </ButtonGroup>
+                                    </td>
+                                </tr>  
+                                ))
+                            }
+                            
                         </tbody>
                     </Table>
                 </Card.Body>
