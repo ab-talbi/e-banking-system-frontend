@@ -1,9 +1,9 @@
-import React from "react";
+import React, {Component} from "react";
 import { Card, Form, Button, Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faSave, faPlusSquare} from "@fortawesome/free-solid-svg-icons";
 
-class AjouterOffre extends React.Component{
+export default class AjouterOffre extends Component{
 
     constructor(props){
         super(props);
@@ -12,9 +12,9 @@ class AjouterOffre extends React.Component{
         this.ajouterOffre = this.ajouterOffre.bind(this);
     }
 
-    ajouterOffre(event){
+    ajouterOffre(e){
         alert("Libelle : "+this.state.libelle+", Description : "+this.state.description);
-        event.preventDefault();
+        e.preventDefault();
     }
 
     offreChange(e) {
@@ -28,7 +28,7 @@ class AjouterOffre extends React.Component{
                 <Form onSubmit={this.ajouterOffre} id="offreFormId" className="form-control border border-dark bg-dark text-white">
                     <Card.Body>
                         <Row>
-                            <Form.Group as={Col} controlId="formLibelle" xs={12} md={4}>
+                            <Form.Group as={Col} controlId="formLibelle" className="mb-3" xs={12} md={4}>
                                 <Form.Label>Libellé</Form.Label>
                                 <Form.Control 
                                     type="text" name="libelle"
@@ -37,7 +37,7 @@ class AjouterOffre extends React.Component{
                                     className={"border border-warning bg-dark text-white"}
                                     placeholder="Libellé de l'offre" required />
                             </Form.Group>
-                            <Form.Group as={Col} controlId="formDescription" xs={12} md={8}>
+                            <Form.Group as={Col} controlId="formDescription" className="mb-3" xs={12} md={8}>
                                 <Form.Label>Description</Form.Label>
                                 <Form.Control
                                     as="textarea" rows={3} name="description"
@@ -58,5 +58,3 @@ class AjouterOffre extends React.Component{
         );
     }
 }
-
-export default AjouterOffre;
