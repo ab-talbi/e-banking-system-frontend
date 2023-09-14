@@ -14,7 +14,7 @@ export default class AcceuilPage extends Component{
                     <p className="lead">Cette application est développée pour aider les agents back office de bien gérer les abonnés ebanking, leurs contrats d'abonnement ainsi que les offres commerciales...</p>
                     <hr/>
                     <Row>
-                        <Col xs={12} md={5}>
+                        <Col className="mb-3" xs={12} md={5}>
                             <h5>Consulter les listes des</h5>
                             <Link to={"/abonnes"}>
                                 <Button variant="outline-warning">Abonnés</Button>
