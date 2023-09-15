@@ -11,7 +11,10 @@ export default class OffresListe extends Component{
     constructor(props){
         super(props);
         this.state = {
-            offres : []
+            offres : [],
+            page:0,
+            totalDesOffres:0,
+            totalDesPages:0
         };
     }
 
@@ -23,7 +26,14 @@ export default class OffresListe extends Component{
         axios.get(OFFRES_REST_API_URL)
             .then(response => response.data)
             .then((data) => {
-                this.setState({offres : data})
+                if(data.offres !== undefined){
+                    this.setState({
+                        offres : data.offres,
+                        page: data.page,
+                        totalDesOffres: data.totalDesOffres,
+                        totalDesPages: data.totalDesPages
+                    })
+                }
             });
     }
 
@@ -53,7 +63,7 @@ export default class OffresListe extends Component{
                                     <td>{offre.description}</td>
                                     <td>
                                         <ButtonGroup>
-                                            <Button size="sm" variant="outline-dark"><FontAwesomeIcon icon={faEdit} /></Button>{' '}
+                                            <Button size="sm" variant="outline-light"><FontAwesomeIcon icon={faEdit} /></Button>{' '}
                                             <Button size="sm" variant="outline-danger"><FontAwesomeIcon icon={faTrash} /></Button>
                                         </ButtonGroup>
                                     </td>
