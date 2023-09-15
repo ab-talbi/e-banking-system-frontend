@@ -34,7 +34,7 @@ export default class OffresListe extends Component{
                         totalDesPages: data.totalDesPages
                     })
                 }
-            });
+            }).catch(err => console.log(err));
     }
 
     render(){
