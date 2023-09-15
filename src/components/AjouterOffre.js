@@ -39,15 +39,15 @@ export default class AjouterOffre extends Component{
                     this.resetOffre()
                     this.setState({'show':true});
                     this.setState({'successOuDanger':'success'});
-                    setTimeout(()=>this.setState({'show':false}), 4000)
+                    setTimeout(()=>this.setState({'show':false}), 5000)
                 }else{
                     this.setState({'show':false});
                 }
             }).catch(err => {
                 console.log(err);
                 this.setState({'show':true});
-                this.setState({'successOuDanger':'danger'});
-                setTimeout(()=>this.setState({'show':false}), 4000)
+                this.setState({'successOuDanger':err.message});
+                setTimeout(()=>this.setState({'show':false}), 5000)
             })
     }
 
@@ -64,7 +64,7 @@ export default class AjouterOffre extends Component{
         const {libelle, description} = this.state;
         const show = this.state.show;
         const successOuDanger = this.state.successOuDanger;
-        const message = successOuDanger === 'success' ? "L'offre est enregistré par succés" : "Tres long...";
+        const message = successOuDanger === 'success' ? "L'offre est enregistré par succés" : successOuDanger;
 
         return (
             <div>
