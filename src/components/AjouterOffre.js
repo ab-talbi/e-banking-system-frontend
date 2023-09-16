@@ -69,7 +69,7 @@ export default class AjouterOffre extends Component{
         return (
             <div>
                 <div style={{"display":this.state.show ? 'block' : 'none'}}>
-                    <MessageToast children={{show:show, header:successOuDanger, message:message}} />
+                    <MessageToast show={show} header={successOuDanger} message={message} />
                 </div>
                 <Card className={"border border-dark bg-dark text-white"}>
                     <Card.Header><FontAwesomeIcon icon={faPlusSquare} /> Ajouter un Offre</Card.Header>

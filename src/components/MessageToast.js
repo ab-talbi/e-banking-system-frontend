@@ -10,10 +10,10 @@ export default class MessageToast extends Component{
             zIndex:'1'
         };
 
-        const show = this.props.children.show;
-        const message = this.props.children.message;
-        const header = this.props.children.header === 'success' ? 'Success' : 'Erreur';
-        const classBackground = this.props.children.header === 'success' ? 'bg-success' : 'bg-danger';
+        const show = this.props.show;
+        const message = this.props.message;
+        const header = this.props.header === 'success' ? 'Success' : 'Erreur';
+        const classBackground = this.props.header === 'success' ? 'bg-success' : 'bg-danger';
 
         return (
             <div>

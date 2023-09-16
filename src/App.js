@@ -10,6 +10,7 @@ import ContratsListe from './components/ContratsListe';
 import AjouterOffre from './components/AjouterOffre';
 import OffresListe from './components/OffresListe';
 import PageNotFound from './components/PageNotFound';
+import Offre from './components/Offre';
 
 function App() {
   return (
@@ -17,14 +18,15 @@ function App() {
       <NavigationBar />
       <Container className='mt-5'>
         <Routes>
-          <Route path='/' exact Component={AcceuilPage} />
-          <Route path='/ajouterAbonne' exact Component={AjouterAbonne} />
-          <Route path='/abonnes' exact Component={AbonnesListe} />
-          <Route path='/ajouterContrat' exact Component={AjouterContrat} />
-          <Route path='/contrats' exact Component={ContratsListe} />
-          <Route path='/ajouterOffre' exact Component={AjouterOffre} />
-          <Route path='/offres' exact Component={OffresListe} />
-          <Route path='*' Component={PageNotFound} />
+          <Route path='/' element={<AcceuilPage/>} />
+          <Route path='/ajouterAbonne' element={<AjouterAbonne/>} />
+          <Route path='/abonnes' element={<AbonnesListe/>} />
+          <Route path='/ajouterContrat' element={<AjouterContrat/>} />
+          <Route path='/contrats' element={<ContratsListe/>} />
+          <Route path='/ajouterOffre' element={<AjouterOffre/>} />
+          <Route path='/offres' exact element={<OffresListe/>} />
+          <Route path='/offres/:id' exact element={<Offre/>} />
+          <Route path='*' element={<PageNotFound/>} />
         </Routes>
       </Container>
     </Router>
