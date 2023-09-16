@@ -100,9 +100,6 @@ export default function Offre(){
                     :
                     <div style={{'display':'none'}}></div>
                 }
-                <div style={{"display":show ? 'block' : 'none'}}>
-                    <MessageToast show={show} header={successOuDanger} message={message} />
-                </div>
                 <Card className={"border border-dark bg-dark text-white"}>
                     <Card.Header><FontAwesomeIcon icon={faPlusSquare} /> Modifier l'offre de l'id : {}</Card.Header>
                     <Form onReset={resetOffre} onSubmit={e => modifierOffre(e)} id="offreFormId" className="form-control border border-dark bg-dark text-white">
