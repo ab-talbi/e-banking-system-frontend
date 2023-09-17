@@ -149,8 +149,6 @@ export default class OffresListe extends Component{
     render(){
 
         const {page, totalDesOffres, totalDesPages, offres} = this.state;
-        const fin = page * 10;
-        const premier = fin - 10;
         const showMessage = this.state.showMessage;
         const successOuDanger = this.state.successOuDanger;
         const message = successOuDanger === 'success' ? "L'offre est supprimé avec succés" : successOuDanger;
