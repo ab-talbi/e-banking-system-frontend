@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import { Button, ButtonGroup, Card, InputGroup, FormControl, Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faList, faTrash, faEdit, faFastBackward, faStepBackward, faStepForward, faFastForward} from "@fortawesome/free-solid-svg-icons";
+import {faList, faTrash, faEdit, faFastBackward, faStepBackward, faStepForward, faFastForward, faSortNumericAsc, faSortAlphaAsc, faSortNumericDesc, faSortAlphaDesc} from "@fortawesome/free-solid-svg-icons";
 import MessageToast from "./MessageToast";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
@@ -13,17 +13,34 @@ const SUPPRIMER_UN_OFFRE_REST_API_URL = 'http://localhost:8089/api/offres/';
 
 export default class OffresListe extends Component{
 
+    sortIdAsc = true;
+    sortLibelleAsc = false;
+    sortDescriptionAsc = false;
+
+    sortBy = 'id';
+    direction = 'asc';
+
     constructor(props){
         super(props);
         this.state = {
             offres : [],
             page:1,
             totalDesOffres:0,
-            totalDesPages:1
+            totalDesPages:1,
+            showAlert:false,
+            showMessage:false,
+            successOuDanger:'success',
+            sortParam : [
+                this.sortBy,
+                this.direction
+            ],
+            sortArray : [
+                this.sortIdAsc,
+                this.sortLibelleAsc,
+                this.sortDescriptionAsc
+            ]
         };
-        this.state.showAlert = false;
-        this.state.showMessage = false;
-        this.state.successOuDanger = 'success';
+
     }
 
     componentDidMount = () => {
@@ -31,7 +48,13 @@ export default class OffresListe extends Component{
     };
 
     getTousLesOffres = () => {
-        axios.get(OFFRES_REST_API_URL, { params: { page: this.state.page - 1 } })
+
+        const params = { 
+            page: this.state.page - 1,
+            sort: this.state.sortParam[0]+","+this.state.sortParam[1]
+        }
+
+        axios.get(OFFRES_REST_API_URL, { params: params })
             .then(response => response.data)
             .then((data) => {
                 if(data.offres !== undefined){
@@ -146,11 +169,61 @@ export default class OffresListe extends Component{
         }
     }
 
+    sortId = () => {
+        const sortAsc = this.state.sortArray[0];
+        this.setState({
+            sortArray : [
+                !sortAsc,
+                true,
+                true
+            ],
+            sortParam : [
+                'id',
+                !sortAsc ? 'asc' : 'desc'
+            ]
+            
+        },() => {
+            this.getTousLesOffres();
+        });
+    }
+
+    sortLibelle = () => {
+        const sortAsc = this.state.sortArray[1];
+        this.setState({
+            sortArray : [
+                true,
+                !sortAsc,
+                true
+            ],
+            sortParam : [
+                'libelle',
+                !sortAsc ? 'asc' : 'desc'
+            ]
+        },() => {
+            this.getTousLesOffres();
+        });
+    }
+
+    sortDescription = () => {
+        const sortAsc = this.state.sortArray[2];
+        this.setState({
+            sortArray : [
+                true,
+                true,
+                !sortAsc
+            ],
+            sortParam : [
+                'description',
+                !sortAsc ? 'asc' : 'desc'
+            ]
+        },() => {
+            this.getTousLesOffres();
+        });
+    }
+
     render(){
 
-        const {page, totalDesOffres, totalDesPages, offres} = this.state;
-        const showMessage = this.state.showMessage;
-        const successOuDanger = this.state.successOuDanger;
+        const {page, totalDesOffres, totalDesPages, offres, showMessage, successOuDanger, sortArray} = this.state;
         const message = successOuDanger === 'success' ? "L'offre est supprimé avec succés" : successOuDanger;
         const pageInputStyles = {
             width: "40px",
@@ -162,18 +235,54 @@ export default class OffresListe extends Component{
 
         return (
             <div>
-                <div style={{"display":showMessage ? 'block' : 'none'}}>
-                    <MessageToast show={showMessage} header={successOuDanger} message={message} />
-                </div>
+                {
+                    showMessage ? 
+                    <div>
+                        <MessageToast show={showMessage} header={successOuDanger} message={message} />
+                    </div>
+                    :
+                    <div style={{'display':'none'}}></div>
+                }
                 <Card className={"border border-dark bg-dark text-white"}>
                     <Card.Header><FontAwesomeIcon icon={faList} /> La Liste des Offres</Card.Header>
                     <Card.Body>
                         <Table bordered hover striped variant="dark">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>LIBELLE</th>
-                                    <th>DESCRIPTION</th>
+                                    <th>
+                                        <Button 
+                                            style={{"width":"100%"}} 
+                                            onClick={this.sortId}
+                                            className="border border-dark bg-dark text-white">
+                                            <strong style={{"float":"left"}}>ID</strong> {'  '}
+                                            <strong style={{"float":"right"}}>
+                                                <FontAwesomeIcon  icon={sortArray[0]? faSortNumericAsc : faSortNumericDesc} />
+                                            </strong>
+                                            
+                                        </Button>
+                                    </th>
+                                    <th>
+                                        <Button 
+                                            style={{"width":"100%"}} 
+                                            onClick={this.sortLibelle}
+                                            className="border border-dark bg-dark text-white">
+                                            <strong style={{"float":"left"}}>LIBELLE</strong> {'  '}
+                                            <strong style={{"float":"right"}}>
+                                                <FontAwesomeIcon icon={sortArray[1] ? faSortAlphaAsc : faSortAlphaDesc} />
+                                            </strong>
+                                        </Button>
+                                    </th>
+                                    <th>
+                                        <Button 
+                                            style={{"width":"100%"}} 
+                                            onClick={this.sortDescription}
+                                            className="border border-dark bg-dark text-white">
+                                            <strong style={{"float":"left"}}>DESCRIPTION</strong> {'  '}
+                                            <strong style={{"float":"right"}}>
+                                                <FontAwesomeIcon icon={sortArray[2] ? faSortAlphaAsc : faSortAlphaDesc} />
+                                            </strong>
+                                        </Button>
+                                    </th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -201,7 +310,7 @@ export default class OffresListe extends Component{
                     </Card.Body>
                     <Card.Footer>
                         <div style={{"float" : "left"}}>
-                            Page {page}/{totalDesPages}.
+                            Totale des offres : {totalDesOffres} - Page {page}/{totalDesPages}.
                         </div>
                         <div style={{"float" : "right"}}>
                             <InputGroup size="sm">
