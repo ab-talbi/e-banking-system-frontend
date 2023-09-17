@@ -19,7 +19,7 @@ export default class OffresListe extends Component{
             offres : [],
             page:1,
             totalDesOffres:0,
-            totalDesPages:0
+            totalDesPages:1
         };
         this.state.showAlert = false;
         this.state.showMessage = false;
