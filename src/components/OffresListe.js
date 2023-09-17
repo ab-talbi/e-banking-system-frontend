@@ -39,7 +39,7 @@ export default class OffresListe extends Component{
                         offres : data.offres,
                         page: data.page + 1,
                         totalDesOffres: data.totalDesOffres,
-                        totalDesPages: data.totalDesPages
+                        totalDesPages: data.totalDesPages === 0 ? 1 : data.totalDesPages
                     })
                 }
             }).catch(err => console.log(err));
