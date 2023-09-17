@@ -1,7 +1,7 @@
 import React, {Component} from "react";
-import { Button, ButtonGroup, Card, Table } from "react-bootstrap";
+import { Button, ButtonGroup, Card, InputGroup, FormControl, Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faList, faTrash, faEdit} from "@fortawesome/free-solid-svg-icons";
+import {faList, faTrash, faEdit, faFastBackward, faStepBackward, faStepForward, faFastForward} from "@fortawesome/free-solid-svg-icons";
 import MessageToast from "./MessageToast";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
@@ -17,7 +17,7 @@ export default class OffresListe extends Component{
         super(props);
         this.state = {
             offres : [],
-            page:0,
+            page:1,
             totalDesOffres:0,
             totalDesPages:0
         };
@@ -31,13 +31,13 @@ export default class OffresListe extends Component{
     };
 
     getTousLesOffres = () => {
-        axios.get(OFFRES_REST_API_URL)
+        axios.get(OFFRES_REST_API_URL, { params: { page: this.state.page - 1 } })
             .then(response => response.data)
             .then((data) => {
                 if(data.offres !== undefined){
                     this.setState({
                         offres : data.offres,
-                        page: data.page,
+                        page: data.page + 1,
                         totalDesOffres: data.totalDesOffres,
                         totalDesPages: data.totalDesPages
                     })
@@ -94,15 +94,77 @@ export default class OffresListe extends Component{
             });
     };
 
+    pageChange = e => {
+        const value = e.target.value;
+
+        if(!(isNaN(value) || value % 1 !== 0 || !(/(^$|^\d*$)/.test(value)) || value <= 0 || value > this.state.totalDesPages)){
+            this.setState({
+                page : value
+            },() => {
+                this.getTousLesOffres();
+            });
+        }
+    }
+
+    premierPage = () => {
+        if(this.state.page > 1){
+            this.setState({
+                page : 1
+            },() => {
+                this.getTousLesOffres();
+            });
+        }
+    }
+
+    pageSuivante = () => {
+        if(this.state.page < this.state.totalDesPages){
+            this.setState({
+                page : this.state.page + 1
+            },() => {
+                this.getTousLesOffres();
+            });
+        }
+    }
+
+    pagePrecedente = () => {
+        if(this.state.page > 1){
+            this.setState({
+                page : this.state.page - 1
+            },() => {
+                this.getTousLesOffres();
+            });
+        }
+    }
+
+    dernierePage = () => {
+        if(this.state.page < this.state.totalDesPages){
+            this.setState({
+                page : this.state.totalDesPages
+            },() => {
+                this.getTousLesOffres();
+            });
+        }
+    }
+
     render(){
 
+        const {page, totalDesOffres, totalDesPages, offres} = this.state;
+        const fin = page * 10;
+        const premier = fin - 10;
         const showMessage = this.state.showMessage;
         const successOuDanger = this.state.successOuDanger;
         const message = successOuDanger === 'success' ? "L'offre est supprimé avec succés" : successOuDanger;
+        const pageInputStyles = {
+            width: "40px",
+            border: "1px solid #FFC107",
+            color : "rgb(194, 194, 194)",
+            fontWeight: "bold",
+            textAlign: "center"
+        }
 
         return (
             <div>
-                <div style={{"display":this.state.showMessage ? 'block' : 'none'}}>
+                <div style={{"display":showMessage ? 'block' : 'none'}}>
                     <MessageToast show={showMessage} header={successOuDanger} message={message} />
                 </div>
                 <Card className={"border border-dark bg-dark text-white"}>
@@ -118,11 +180,11 @@ export default class OffresListe extends Component{
                                 </tr>
                             </thead>
                             <tbody>
-                                {this.state.offres.length === 0 ? 
+                                {offres.length === 0 ? 
                                     <tr align="center">
                                         <td colSpan="4">Aucun offre à afficher.</td>
                                     </tr> : 
-                                    this.state.offres.map((offre) => (
+                                    offres.map((offre) => (
                                     <tr key={offre.id}>
                                         <td>{offre.id}</td>
                                         <td>{offre.libelle}</td>
@@ -139,6 +201,44 @@ export default class OffresListe extends Component{
                             </tbody>
                         </Table>
                     </Card.Body>
+                    <Card.Footer>
+                        <div style={{"float" : "left"}}>
+                            Page {page}/{totalDesPages}.
+                        </div>
+                        <div style={{"float" : "right"}}>
+                            <InputGroup size="sm">
+                                <Button 
+                                    variant="outline-warning" 
+                                    disabled={page === 1 ? true : false}
+                                    onClick={this.premierPage}>
+                                    <FontAwesomeIcon icon={faFastBackward} />
+                                </Button>
+                                <Button 
+                                    variant="outline-warning"
+                                    disabled={page === 1 ? true : false}
+                                    onClick={this.pagePrecedente} >
+                                    <FontAwesomeIcon icon={faStepBackward} />
+                                </Button>
+                                <FormControl 
+                                    value={page} 
+                                    onChange={this.pageChange}
+                                    style={pageInputStyles} 
+                                    className="bg-dark" />
+                                <Button 
+                                    variant="outline-warning"
+                                    disabled={page === totalDesPages ? true : false}
+                                    onClick={this.pageSuivante} >
+                                    <FontAwesomeIcon icon={faStepForward} />
+                                </Button>
+                                <Button 
+                                    variant="outline-warning" 
+                                    disabled={page === totalDesPages ? true : false} 
+                                    onClick={this.dernierePage} >
+                                    <FontAwesomeIcon icon={faFastForward} />
+                                </Button>
+                            </InputGroup>
+                        </div>
+                    </Card.Footer>
                 </Card>
             </div>
         );
