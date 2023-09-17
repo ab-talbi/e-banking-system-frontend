@@ -249,7 +249,7 @@ export default class OffresListe extends Component{
                         <Table bordered hover striped variant="dark">
                             <thead>
                                 <tr>
-                                    <th>
+                                    <th style={{"width":"20%"}}>
                                         <Button 
                                             style={{"width":"100%"}} 
                                             onClick={this.sortId}
@@ -261,7 +261,7 @@ export default class OffresListe extends Component{
                                             
                                         </Button>
                                     </th>
-                                    <th>
+                                    <th style={{"width":"30%"}}>
                                         <Button 
                                             style={{"width":"100%"}} 
                                             onClick={this.sortLibelle}
@@ -272,7 +272,7 @@ export default class OffresListe extends Component{
                                             </strong>
                                         </Button>
                                     </th>
-                                    <th>
+                                    <th style={{"width":"50%"}}>
                                         <Button 
                                             style={{"width":"100%"}} 
                                             onClick={this.sortDescription}
