@@ -11,6 +11,7 @@ import AjouterOffre from './components/AjouterOffre';
 import OffresListe from './components/OffresListe';
 import PageNotFound from './components/PageNotFound';
 import Offre from './components/Offre';
+import Contrat from './components/Contrat';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path='/ajouterOffre' element={<AjouterOffre/>} />
           <Route path='/offres' exact element={<OffresListe/>} />
           <Route path='/offres/:id' exact element={<Offre/>} />
+          <Route path='/contrats/:id' exact element={<Contrat/>} />
           <Route path='*' element={<PageNotFound/>} />
         </Routes>
       </Container>
