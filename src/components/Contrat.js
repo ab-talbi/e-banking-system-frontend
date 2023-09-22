@@ -51,7 +51,7 @@ export default function Contrat(){
                     defaultOptions.push({ value: offre.id, label: offre.libelle });
                 }
             }   
-        });
+        }); 
 
         console.log("default"+defaultOptions)
         setDefaultOffresOptions(defaultOptions);
