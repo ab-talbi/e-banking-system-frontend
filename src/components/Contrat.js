@@ -78,7 +78,7 @@ export default function Contrat(){
                 console.log(err.message);
                 setFound(false);
             });
-    };
+    }; 
 
     const getLesOffres = () => {
         axios.get(OFFRES_REST_API_URL)
