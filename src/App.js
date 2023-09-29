@@ -12,6 +12,7 @@ import OffresListe from './components/GestionOffres/OffresListe';
 import PageNotFound from './components/PageNotFound';
 import Offre from './components/GestionOffres/Offre';
 import Contrat from './components/GestionContrats/Contrat';
+import Abonne from './components/GestionAbonnes/Abonne';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path='/offres' exact element={<OffresListe/>} />
           <Route path='/offres/:id' exact element={<Offre/>} />
           <Route path='/contrats/:id' exact element={<Contrat/>} />
+          <Route path='/abonnes/:id' exact element={<Abonne/>} />
           <Route path='*' element={<PageNotFound/>} />
         </Routes>
       </Container>
