@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import { Card, Form, Button, Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faSave, faPlusSquare, faUndo} from "@fortawesome/free-solid-svg-icons";
-import MessageToast from "./MessageToast";
+import MessageToast from "../MessageToast";
 
 import axios from "axios";
 

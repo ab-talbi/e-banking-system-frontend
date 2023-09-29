@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import { Button, ButtonGroup, Card, InputGroup, FormControl, Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faList, faTrash, faEdit, faFastBackward, faStepBackward, faStepForward, faFastForward, faSortNumericAsc, faSortAlphaAsc, faSortNumericDesc, faSortAlphaDesc} from "@fortawesome/free-solid-svg-icons";
-import MessageToast from "./MessageToast";
+import MessageToast from "../MessageToast";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 

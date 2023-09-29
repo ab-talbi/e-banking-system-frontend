@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Card, Form, Button, Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faSave, faPlusSquare, faUndo} from "@fortawesome/free-solid-svg-icons";
-import MessageToast from "./MessageToast";
-import PageNotFound from "./PageNotFound";
+import MessageToast from "../MessageToast";
+import PageNotFound from "../PageNotFound";
 import makeAnimated from "react-select/animated"
 import Select from "react-select"
 
