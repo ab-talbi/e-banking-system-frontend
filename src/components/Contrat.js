@@ -44,7 +44,6 @@ export default function Contrat(){
 
     useEffect(() => {
         const defaultOptions = []
-        console.log(contrat.offresIds)
         offresOptions.forEach((offre) => {
             for (var i = 0; i < contrat.offresIds.length; i++) {
                 if (contrat.offresIds[i] === offre.id) {
@@ -52,10 +51,7 @@ export default function Contrat(){
                 }
             }   
         }); 
-
-        console.log("default"+defaultOptions)
         setDefaultOffresOptions(defaultOptions);
-        console.log("default state"+defaultOffresOptions)
     }, [offresOptions, contrat.offresIds]);
     
     const trouverUnContratById = (id) => {
@@ -185,19 +181,6 @@ export default function Contrat(){
                                 </Form.Group>
                             </Row>
                             <Row>
-                                {/*
-                                <Form.Group as={Col} controlId="formAbonne" className="mb-3" xs={12} md={6}>
-                                    <Form.Label>Abonne</Form.Label>
-                                    <Form.Select 
-                                        aria-label="Abonne" name="abonneId"
-                                        value={abonneId} onChange={this.contratChange}
-                                        className={"border border-warning bg-dark text-white"}
-                                        placeholder="Ajouter l'abonné associé" >
-                                            <option disabled value={0} key={0}>Choisir l'abonné à associer à cet contrat</option>
-                                            {this.state.abonnesOptions.map((abonne) => <option key={abonne.value} value={abonne.value}>{abonne.nom + " " +abonne.prenom}</option>)}
-                                    </Form.Select>
-                                </Form.Group>
-                                */}
                                 <Form.Group as={Col} className="mb-3" xs={12} md={12}>
                                     <Form.Label htmlFor="offresIds">Offres</Form.Label>
                                     <Select
