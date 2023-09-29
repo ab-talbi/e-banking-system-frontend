@@ -3,15 +3,15 @@ import NavigationBar from './components/NavigationBar';
 import AcceuilPage from './components/AcceuilPage';
 import { Container } from 'react-bootstrap';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; 
-import AjouterAbonne from './components/AjouterAbonne';
-import AbonnesListe from './components/AbonnesListe';
-import AjouterContrat from './components/AjouterContrat';
-import ContratsListe from './components/ContratsListe';
-import AjouterOffre from './components/AjouterOffre';
-import OffresListe from './components/OffresListe';
+import AjouterAbonne from './components/GestionAbonnes/AjouterAbonne';
+import AbonnesListe from './components/GestionAbonnes/AbonnesListe';
+import AjouterContrat from './components/GestionContrats/AjouterContrat';
+import ContratsListe from './components/GestionContrats/ContratsListe';
+import AjouterOffre from './components/GestionOffres/AjouterOffre';
+import OffresListe from './components/GestionOffres/OffresListe';
 import PageNotFound from './components/PageNotFound';
-import Offre from './components/Offre';
-import Contrat from './components/Contrat';
+import Offre from './components/GestionOffres/Offre';
+import Contrat from './components/GestionContrats/Contrat';
 
 function App() {
   return (
