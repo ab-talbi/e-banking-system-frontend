@@ -5,6 +5,9 @@ import {faList, faTrash, faEdit, faFastBackward, faStepBackward, faStepForward, 
 import MessageToast from "../MessageToast";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Form from 'react-bootstrap/Form';
 
 import axios from "axios";
 
@@ -38,7 +41,9 @@ export default class OffresListe extends Component{
                 this.sortIdAsc,
                 this.sortLibelleAsc,
                 this.sortDescriptionAsc
-            ]
+            ],
+            search : "libelle",
+            val : ""
         };
 
     }
@@ -50,6 +55,8 @@ export default class OffresListe extends Component{
     getTousLesOffres = () => {
 
         const params = { 
+            search: this.state.search,
+            val : this.state.val === '' ? null : this.state.val,
             page: this.state.page - 1,
             sort: this.state.sortParam[0]+","+this.state.sortParam[1]
         }
@@ -63,6 +70,13 @@ export default class OffresListe extends Component{
                         page: data.page + 1,
                         totalDesOffres: data.totalDesOffres,
                         totalDesPages: data.totalDesPages === 0 ? 1 : data.totalDesPages
+                    })
+                }else{
+                    this.setState({
+                        offres : [],
+                        page: 1,
+                        totalDesOffres: 0,
+                        totalDesPages: 1
                     })
                 }
             }).catch(err => console.log(err));
@@ -221,9 +235,25 @@ export default class OffresListe extends Component{
         });
     }
 
+    handleSearchSelect = (e) =>{
+        this.setState({ 
+            search : e 
+        },() => {
+            this.getTousLesOffres();
+        });
+    }
+
+    valChange = e => {
+        this.setState({ 
+            val: e.target.value 
+        },() => {
+            this.getTousLesOffres();
+        });
+    }
+
     render(){
 
-        const {page, totalDesOffres, totalDesPages, offres, showMessage, successOuDanger, sortArray} = this.state;
+        const {page, totalDesOffres, totalDesPages, offres, showMessage, successOuDanger, sortArray, search, val} = this.state;
         const message = successOuDanger === 'success' ? "L'offre est supprimé avec succés" : successOuDanger;
         const pageInputStyles = {
             width: "40px",
@@ -243,6 +273,25 @@ export default class OffresListe extends Component{
                     :
                     <div style={{'display':'none'}}></div>
                 }
+                <div>
+                    <InputGroup className="mb-3">
+                        <DropdownButton
+                            variant="outline-secondary"
+                            title={search === 'libelle' ? "Libelle" : "Description"}
+                            id="input-group-dropdown-1"
+                            onSelect={this.handleSearchSelect}
+                        >
+                            <Dropdown.Item eventKey="libelle">Libelle</Dropdown.Item>
+                            <Dropdown.Item eventKey="description">Description</Dropdown.Item>
+                        </DropdownButton>
+                        <Form.Control 
+                            aria-label="Text input with dropdown button" 
+                            type="text" name="searchVal" autoComplete="off"
+                            value={val} onChange={this.valChange}
+                            className={"bg-dark text-white"}
+                            placeholder="Chercher..."/>
+                    </InputGroup>
+                </div>
                 <Card className={"border border-dark bg-dark text-white"}>
                     <Card.Header><FontAwesomeIcon icon={faList} /> La Liste des Offres</Card.Header>
                     <Card.Body>
