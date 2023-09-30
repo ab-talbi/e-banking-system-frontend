@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faSave, faPlusSquare, faUndo} from "@fortawesome/free-solid-svg-icons";
 import MessageToast from "../MessageToast";
 import PageNotFound from "../PageNotFound";
+import Spinner from 'react-bootstrap/Spinner';
 
 import { useParams } from "react-router-dom";
 
@@ -26,21 +27,22 @@ export default function Abonne(){
         backOfficeId:0 
     });
 
-    const [agences, setAgences] = useState([
-        { value: "1", nom: "MARRAKECH ABDELKRIM EL KHATABI"},
-        { value: "2", nom: "AIN CHOCK"},
-        { value: "3", nom: "AGADIR DRARGA"}
-      ])
-
-    const [backOffices, setBackOffices] = useState([
-        { value: "1", nom: "El Amrani", prenom: "Amine"},
-        { value: "2", nom: "Moussaoui", prenom: "Leila"},
-        { value: "3", nom: "Benjelloun", prenom: "Youssef"},
-      ])
-
     const [show, setShow] = useState(false);
     const [found, setFound] = useState(false);
     const [successOuDanger, setSuccessOuDanger] = useState('success');
+    const [loading, setLoading] = useState(true);
+
+    const agences = [
+        { value: "1", nom: "MARRAKECH ABDELKRIM EL KHATABI"},
+        { value: "2", nom: "AIN CHOCK"},
+        { value: "3", nom: "AGADIR DRARGA"}
+    ];
+
+    const backOffices = [
+        { value: "1", nom: "El Amrani", prenom: "Amine"},
+        { value: "2", nom: "Moussaoui", prenom: "Leila"},
+        { value: "3", nom: "Benjelloun", prenom: "Youssef"},
+    ];
 
     useEffect(() => {
         if(/^\d+$/.test(id) && parseInt(id) >= 1){
@@ -76,8 +78,11 @@ export default function Abonne(){
                     setFound(false);
                 }
 
+                setLoading(false);
+
             }).catch(err => {
                 console.log(err.message);
+                setLoading(false);
                 setFound(false);
             });
     }; 
@@ -130,7 +135,11 @@ export default function Abonne(){
 
     return (
         <div>
-            {found ? 
+            {loading ? 
+                <div style={{position : "relative"}}>
+                    <Spinner style={{position : "absolute", top : "50%", left : "50%"}} animation="border" variant="warning" />
+                </div>
+            : found ? 
             <div>
                 {
                     show ? 
