@@ -5,6 +5,9 @@ import {faList, faSortNumericDesc, faSortNumericAsc, faSortAlphaDesc, faSortAlph
 import MessageToast from "../MessageToast";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Form from 'react-bootstrap/Form';
 
 import axios from "axios";
 
@@ -38,7 +41,9 @@ export default class ContratsListe extends Component{
                 this.sortIdAsc,
                 this.sortLibelleAsc,
                 this.sortDescriptionAsc
-            ]
+            ],
+            search : "intitule",
+            val : ""
         };
 
     }
@@ -50,6 +55,8 @@ export default class ContratsListe extends Component{
     getTousLesContrats = () => {
 
         const params = { 
+            search: this.state.search,
+            val : this.state.val === '' ? null : this.state.val,
             page: this.state.page - 1,
             sort: this.state.sortParam[0]+","+this.state.sortParam[1]
         }
@@ -63,6 +70,13 @@ export default class ContratsListe extends Component{
                         page: data.page + 1,
                         totalDesContrats: data.totalDesContrats,
                         totalDesPages: data.totalDesPages === 0 ? 1 : data.totalDesPages
+                    })
+                }else{
+                    this.setState({
+                        contrats : [],
+                        page: 1,
+                        totalDesContrats: 0,
+                        totalDesPages: 1
                     })
                 }
             }).catch(err => console.log(err));
@@ -221,9 +235,40 @@ export default class ContratsListe extends Component{
         });
     }
 
+    handleSearchSelect = (e) =>{
+        this.setState({ 
+            search : e,
+            val : e === 'statut' ? 'ACTIF' : this.state.val
+        },() => {
+            this.getTousLesContrats();
+        });
+    }
+
+    valChange = e => {
+        let actif = 'ACTIF';
+        let suspendu = 'SUSPENDU';
+        let valeur = e.target.value;
+
+        if(this.state.search === 'statut'){
+            if(actif.includes(valeur.toUpperCase())){
+                valeur = actif;
+            }
+    
+            if(suspendu.includes(valeur.toUpperCase())){
+                valeur = suspendu;
+            }
+        }
+
+        this.setState({ 
+            val: valeur 
+        },() => {
+            this.getTousLesContrats();
+        });
+    }
+
     render(){
 
-        const {page, totalDesContrats, totalDesPages, contrats, showMessage, successOuDanger, sortArray} = this.state;
+        const {page, totalDesContrats, totalDesPages, contrats, showMessage, successOuDanger, sortArray, search, val} = this.state;
         const message = successOuDanger === 'success' ? "Le contrat est supprimé avec succés" : successOuDanger;
         const pageInputStyles = {
             width: "40px",
@@ -243,6 +288,36 @@ export default class ContratsListe extends Component{
                     :
                     <div style={{'display':'none'}}></div>
                 }
+                <div>
+                    <InputGroup className="mb-3">
+                        <DropdownButton
+                            variant="outline-secondary"
+                            title={search === 'intitule' ? "Intitule" : "Statut"}
+                            id="input-group-dropdown-1"
+                            onSelect={this.handleSearchSelect}
+                        >
+                            <Dropdown.Item eventKey="intitule">Intitule</Dropdown.Item>
+                            <Dropdown.Item eventKey="statut">Statut</Dropdown.Item>
+                        </DropdownButton>
+                        {
+                            search === 'statut' ? 
+                            <Form.Select 
+                                aria-label="Statut" name="statut"
+                                value={val} onChange={this.valChange}
+                                className={"bg-dark text-white"}>
+                                    <option value="ACTIF">Actif</option>
+                                    <option value="SUSPENDU">Suspendu</option>
+                            </Form.Select>
+                            :
+                            <Form.Control 
+                                aria-label="Text input with dropdown button" 
+                                type="text" name="searchVal" autoComplete="off"
+                                value={val} onChange={this.valChange}
+                                className={"bg-dark text-white"}
+                                placeholder="Chercher..."/>
+                        }
+                    </InputGroup>
+                </div>
                 <Card className={"border border-dark bg-dark text-white"}>
                     <Card.Header><FontAwesomeIcon icon={faList} /> La Liste des Contrats</Card.Header>
                     <Card.Body>
@@ -296,7 +371,7 @@ export default class ContratsListe extends Component{
                             <tbody>
                                 {contrats.length === 0 ? 
                                     <tr align="center">
-                                        <td colSpan="4">Aucun contrat à afficher.</td>
+                                        <td colSpan="5">Aucun contrat à afficher.</td>
                                     </tr> : 
                                     contrats.map((contrat) => (
                                     <tr key={contrat.id}>
