@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faSave, faPlusSquare, faUndo} from "@fortawesome/free-solid-svg-icons";
 import MessageToast from "../MessageToast";
 import PageNotFound from "../PageNotFound";
+import Spinner from 'react-bootstrap/Spinner';
 
 import { useParams } from "react-router-dom";
 
@@ -22,6 +23,7 @@ export default function Offre(){
     const [show, setShow] = useState(false);
     const [found, setFound] = useState(false);
     const [successOuDanger, setSuccessOuDanger] = useState('success');
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         if(/^\d+$/.test(id) && parseInt(id) >= 1){
@@ -46,8 +48,11 @@ export default function Offre(){
                     setFound(false);
                 }
 
+                setLoading(false)
+
             }).catch(err => {
                 console.log(err.message);
+                setLoading(false)
                 setFound(false);
             });
     };
@@ -90,7 +95,11 @@ export default function Offre(){
 
     return (
         <div>
-            {found ? 
+            {loading ? 
+                <div style={{position : "relative"}}>
+                    <Spinner style={{position : "absolute", top : "50%", left : "50%"}} animation="border" variant="warning" />
+                </div>
+            : found ? 
             <div>
                 {
                     show ? 
