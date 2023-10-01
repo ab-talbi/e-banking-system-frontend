@@ -236,31 +236,23 @@ export default class ContratsListe extends Component{
     }
 
     handleSearchSelect = (e) =>{
+
+        let valeur = this.state.val;
+
+        if(valeur.includes('ACTIF') || valeur.includes('SUSPENDU')){
+            valeur = '';
+        }
         this.setState({ 
             search : e,
-            val : e === 'statut' ? 'ACTIF' : this.state.val
+            val : e === 'statut' ? 'ACTIF' : valeur
         },() => {
             this.getTousLesContrats();
         });
     }
 
     valChange = e => {
-        let actif = 'ACTIF';
-        let suspendu = 'SUSPENDU';
-        let valeur = e.target.value;
-
-        if(this.state.search === 'statut'){
-            if(actif.includes(valeur.toUpperCase())){
-                valeur = actif;
-            }
-    
-            if(suspendu.includes(valeur.toUpperCase())){
-                valeur = suspendu;
-            }
-        }
-
         this.setState({ 
-            val: valeur 
+            val: e.target.value 
         },() => {
             this.getTousLesContrats();
         });
