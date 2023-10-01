@@ -5,6 +5,9 @@ import {faList, faSortNumericDesc, faSortNumericAsc, faSortAlphaDesc, faSortAlph
 import MessageToast from "../MessageToast";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Form from 'react-bootstrap/Form';
 
 import axios from "axios";
 
@@ -44,10 +47,23 @@ export default class AbonnesListe extends Component{
                 this.sortEmailAsc,
                 this.sortStatutAsc,
                 this.sortSexeAsc
-            ]
+            ],
+            search : "nom",
+            val : ""
         };
-
     }
+
+    agences = [
+        { value: "1", nom: "MARRAKECH ABDELKRIM EL KHATABI"},
+        { value: "2", nom: "AIN CHOCK"},
+        { value: "3", nom: "AGADIR DRARGA"}
+    ];
+
+    backOffices = [
+        { value: "1", nom: "El Amrani", prenom: "Amine"},
+        { value: "2", nom: "Moussaoui", prenom: "Leila"},
+        { value: "3", nom: "Benjelloun", prenom: "Youssef"},
+    ];
 
     componentDidMount = () => {
         this.getTousLesAbonnes();
@@ -56,6 +72,8 @@ export default class AbonnesListe extends Component{
     getTousLesAbonnes = () => {
 
         const params = { 
+            search: this.state.search,
+            val : this.state.val === '' ? null : this.state.val,
             page: this.state.page - 1,
             sort: this.state.sortParam[0]+","+this.state.sortParam[1]
         }
@@ -69,6 +87,13 @@ export default class AbonnesListe extends Component{
                         page: data.page + 1,
                         totalDesAbonnes: data.totalDesAbonnes,
                         totalDesPages: data.totalDesPages === 0 ? 1 : data.totalDesPages
+                    })
+                }else{
+                    this.setState({
+                        abonnes : [],
+                        page: 1,
+                        totalDesAbonnes: 0,
+                        totalDesPages: 1
                     })
                 }
             }).catch(err => console.log(err));
@@ -299,9 +324,33 @@ export default class AbonnesListe extends Component{
         });
     }
 
+    handleSearchSelect = (e) =>{
+
+        let valeur = this.state.val;
+
+        if(valeur.includes('ACTIF') || valeur.includes('SUSPENDU') || valeur.includes('HOMME') || valeur.includes('FEMME') || !isNaN(valeur) ){
+            valeur = '';
+        }
+
+        this.setState({ 
+            search : e,
+            val : e === 'statut' ? 'ACTIF' : e === 'sexe' ? 'HOMME' : e === 'agence' ? '1' : e === 'backoffice' ? '1' : valeur
+        },() => {
+            this.getTousLesAbonnes();
+        });
+    }
+
+    valChange = e => {
+        this.setState({ 
+            val: e.target.value 
+        },() => {
+            this.getTousLesAbonnes();
+        });
+    }
+
     render(){
 
-        const {page, totalDesAbonnes, totalDesPages, abonnes, showMessage, successOuDanger, sortArray} = this.state;
+        const {page, totalDesAbonnes, totalDesPages, abonnes, showMessage, successOuDanger, sortArray, search, val} = this.state;
         const message = successOuDanger === 'success' ? "L'abobbé est supprimé avec succés" : successOuDanger;
         const pageInputStyles = {
             width: "40px",
@@ -321,6 +370,67 @@ export default class AbonnesListe extends Component{
                     :
                     <div style={{'display':'none'}}></div>
                 }
+                <div>
+                    <InputGroup className="mb-3">
+                        <DropdownButton
+                            variant="outline-secondary"
+                            title={search.toUpperCase()}
+                            id="input-group-dropdown-1"
+                            onSelect={this.handleSearchSelect}
+                        >
+                            <Dropdown.Item eventKey="nom">Nom</Dropdown.Item>
+                            <Dropdown.Item eventKey="prenom">Prénom</Dropdown.Item>
+                            <Dropdown.Item eventKey="email">Email</Dropdown.Item>
+                            <Dropdown.Item eventKey="adresse">Adresse</Dropdown.Item>
+                            <Dropdown.Item eventKey="contrat">Contrat</Dropdown.Item>
+                            <Dropdown.Item eventKey="agence">Agence</Dropdown.Item>
+                            <Dropdown.Item eventKey="backoffice">Back Office</Dropdown.Item>
+                            <Dropdown.Item eventKey="statut">Statut</Dropdown.Item>
+                            <Dropdown.Item eventKey="sexe">Sexe</Dropdown.Item>
+                        </DropdownButton>
+                        {
+                            search === 'statut' ? 
+                            <Form.Select 
+                                aria-label="Statut" name="statut"
+                                value={val} onChange={this.valChange}
+                                className={"bg-dark text-white"}>
+                                    <option value="ACTIF">Actif</option>
+                                    <option value="SUSPENDU">Suspendu</option>
+                            </Form.Select>
+                            : search === 'sexe' ? 
+                            <Form.Select 
+                                aria-label="Sexe" name="sexe"
+                                value={val} onChange={this.valChange}
+                                className={"bg-dark text-white"}>
+                                    <option value="HOMME">Homme</option>
+                                    <option value="FEMME">Femme</option>
+                            </Form.Select>
+                            : search === 'agence' ? 
+                            <Form.Select 
+                                aria-label="Agence" name="agence"
+                                value={val}
+                                onChange={this.valChange}
+                                className={"bg-dark text-white"} >
+                                    {this.agences.map((agence) => <option key={agence.value} value={agence.value}>{agence.nom}</option>)}
+                            </Form.Select>
+                            : search === 'backoffice' ?
+                            <Form.Select 
+                                aria-label="BackOffice" name="backoffice"
+                                value={val}
+                                onChange={this.valChange}
+                                className={"bg-dark text-white"} >
+                                    {this.backOffices.map((backoffice) => <option key={backoffice.value} value={backoffice.value}>{backoffice.nom +" "+backoffice.prenom}</option>)}
+                            </Form.Select>
+                            :
+                            <Form.Control 
+                                aria-label="Text input with dropdown button" 
+                                type="text" name="searchVal" autoComplete="off"
+                                value={val} onChange={this.valChange}
+                                className={"bg-dark text-white"}
+                                placeholder="Chercher..."/>
+                        }
+                    </InputGroup>
+                </div>
                 <Card className={"border border-dark bg-dark text-white"}>
                     <Card.Header><FontAwesomeIcon icon={faList} /> La Liste des Abonnés</Card.Header>
                     <Card.Body>
