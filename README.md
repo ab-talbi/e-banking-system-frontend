@@ -1,70 +1,78 @@
-# Getting Started with Create React App
+# Gestion des abonnes e-banking, leurs contrats d'abonnement et les offres commerciales - Partie FrontEnd
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Cette partie est développée avec ReactJs, et consomme les fonctionnalités de [L'api (Partie Backend)](https://github.com/ab-talbi/gestion-des-abonnes-e-banking-backend) pour la gestion :
 
-## Available Scripts
+### 1- Des Abonnés Ebanking
+### 2- Des Contrats d'Abonnement
+### 3- Des Offres Commérciales
 
-In the project directory, you can run:
+</br>
 
-### `npm start`
+### Vous pouvez exécuter le projet par cette commande :
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+#### `npm start`
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Exécute l'application en mode développement.\
+Ouvrez le lien : [http://localhost:3000](http://localhost:3000) pour l'afficher dans votre navigateur.
 
-### `npm test`
+</br>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Quelques dependencies étulisés dans ce projet :
 
-### `npm run build`
+```
+fontawesome-svg-core
+free-solid-svg-icons
+react-fontawesome
+axios
+bootstrap
+react-bootstrap
+react-dom
+react-router-dom
+react-select
+sweetalert2
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+</br>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### L'interface utilisateur :
+#### Page d'Acceuil :
+  ![image](https://github.com/ab-talbi/gestion-des-abonnes-e-banking-frontend/assets/101748749/30436315-63b1-4a3b-90a6-0be3d26c0601)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### Ajouter un Abonné :
+  ![ajouter_abonne](https://github.com/ab-talbi/gestion-des-abonnes-e-banking-frontend/assets/101748749/5cbb7983-0735-4012-833b-e6e8ebc6eb6f)
 
-### `npm run eject`
+#### Ajouter un Contrat :
+  ![ajouter_contrat](https://github.com/ab-talbi/gestion-des-abonnes-e-banking-frontend/assets/101748749/7ef688cd-0b28-4a06-9b57-d1a7273a4558)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+#### Ajouter un Offre :
+  ![ajouter_offre](https://github.com/ab-talbi/gestion-des-abonnes-e-banking-frontend/assets/101748749/06f801af-4b21-4aa3-9e24-db953a24da38)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### Liste des Abonnés :
+  ![liste_abonnes_tous](https://github.com/ab-talbi/gestion-des-abonnes-e-banking-frontend/assets/101748749/fe209077-3e0a-4c2b-94b1-5977c04acf53)
+  ![liste_abonnes_avec_liste_de_recherche](https://github.com/ab-talbi/gestion-des-abonnes-e-banking-frontend/assets/101748749/2a2e73a7-bba1-4936-a381-f676428185e9)
+  ![liste_abonnes_marrakech](https://github.com/ab-talbi/gestion-des-abonnes-e-banking-frontend/assets/101748749/2612d1dc-b758-4f00-92e8-d5bd01facaee)
+  ![liste_abonnes_trie_par_agence](https://github.com/ab-talbi/gestion-des-abonnes-e-banking-frontend/assets/101748749/5e318d19-fa73-4b3f-a594-5515abeaa7e8)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+#### Liste des Contrats :
+  ![liste_contrats_tous](https://github.com/ab-talbi/gestion-des-abonnes-e-banking-frontend/assets/101748749/ed7af6c3-085a-49eb-a73d-95dd5362b170)
+  ![liste_contrats_suspendu](https://github.com/ab-talbi/gestion-des-abonnes-e-banking-frontend/assets/101748749/65ccc63a-77b7-41df-baba-c8b7bb2e19d9)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+#### Liste des Offres :
+  ![liste_offres_page1](https://github.com/ab-talbi/gestion-des-abonnes-e-banking-frontend/assets/101748749/c08e31bf-d55d-4263-a83f-c1866a2ccb2b)
+  ![liste_offres_page2](https://github.com/ab-talbi/gestion-des-abonnes-e-banking-frontend/assets/101748749/f407070d-94b3-4647-94da-b6ba116d70e9)
 
-## Learn More
+#### La Supprission :
+  ![supprission](https://github.com/ab-talbi/gestion-des-abonnes-e-banking-frontend/assets/101748749/9dd34cee-e0b8-4145-b14b-e25e93669146)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### Confirmation de la Supprission :
+  ![confirmation_supprission](https://github.com/ab-talbi/gestion-des-abonnes-e-banking-frontend/assets/101748749/a1cb79d8-e863-41a6-8a07-e1ddb8e65013)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+#### La Modification :
+  ![modification](https://github.com/ab-talbi/gestion-des-abonnes-e-banking-frontend/assets/101748749/9041268a-3e97-4811-b31c-396fa67654e6)
 
-### Code Splitting
+#### Page d'érreur 404 :
+  ![error_404](https://github.com/ab-talbi/gestion-des-abonnes-e-banking-frontend/assets/101748749/16bbb098-8784-48b5-a49f-109751edd32b)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+</br>
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Ce projet est développé par : TALBI Ayoub**
